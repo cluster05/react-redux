@@ -1,7 +1,8 @@
 import React from "react";
 import Counter from "./compoents/Counter/Counter";
 import CounterControl from "./compoents/CounterControl/CounterControl";
-import * as actionType from './store/action/counter';
+import * as counterActionType from './store/action/counter';
+import * as resultActionType from './store/action/result';
 import { connect } from 'react-redux';
 
 class App extends React.Component {
@@ -15,21 +16,32 @@ class App extends React.Component {
       <div>
         <CounterControl
           payload={1}
-          title={actionType.INCREMENT}
+          title={counterActionType.INCREMENT}
           clickHandler={this.props.onIncrementCounter} />
         <CounterControl
           payload={-1}
-          title={actionType.DECREMENT}
+          title={counterActionType.DECREMENT}
           clickHandler={this.props.onDecrementCounter} />
         <CounterControl
           payload={10}
-          title={actionType.INCREMENT_BY_10}
+          title={counterActionType.INCREMENT_BY_10}
           clickHandler={this.props.onIncrementCounterBy10} />
         <CounterControl
           payload={-10}
-          title={actionType.DECREMENT_BY_10}
+          title={counterActionType.DECREMENT_BY_10}
           clickHandler={this.props.onDecrementCounterBy10} />
         <Counter counter={this.props.counter} />
+        <button onClick={() => this.props.saveResult(this.props.counter)}>save result</button>
+
+        <ul>
+          {this.props.results.map(result => (
+            <li
+              key={result.id}
+              onClick={() => this.props.removeResult(result.id)}
+            > {result.value}  </li>
+          ))
+          }
+        </ul>
 
       </div >
     )
@@ -39,17 +51,21 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    counter: state.counter
+    counter: state.ctr.counter,
+    results: state.res.results
   }
 }
 
 const mapReducerToProps = dispatch => {
 
   return {
-    onIncrementCounter: () => dispatch({ type: actionType.INCREMENT, payload: { value: 1 } }),
-    onDecrementCounter: () => dispatch({ type: actionType.INCREMENT, payload: { value: -1 } }),
-    onIncrementCounterBy10: () => dispatch({ type: actionType.INCREMENT, payload: { value: 10 } }),
-    onDecrementCounterBy10: () => dispatch({ type: actionType.INCREMENT, payload: { value: -10 } }),
+    onIncrementCounter: () => dispatch({ type: counterActionType.INCREMENT, payload: { value: 1 } }),
+    onDecrementCounter: () => dispatch({ type: counterActionType.INCREMENT, payload: { value: -1 } }),
+    onIncrementCounterBy10: () => dispatch({ type: counterActionType.INCREMENT, payload: { value: 10 } }),
+    onDecrementCounterBy10: () => dispatch({ type: counterActionType.INCREMENT, payload: { value: -10 } }),
+    saveResult: (counter) => dispatch({ type: resultActionType.SAVE_RESULT, payload: { counter } }),
+    removeResult: (id) => dispatch({ type: resultActionType.REMOVE_RESULT, payload: { id } }),
+
   }
 
 }
