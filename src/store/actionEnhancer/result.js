@@ -22,7 +22,7 @@ const asyncSaveValue = (counter) => {
     return dispatch => {
         setTimeout(() => {
             dispatch(saveValue(counter))
-        }, 5000);
+        }, 500);
     }
 }
 
@@ -30,7 +30,7 @@ const asyncRemoveValue = (id) => {
     return dispatch => {
         setTimeout(() => {
             dispatch(removeValue(id))
-        }, 2000);
+        }, 500);
     }
 }
 

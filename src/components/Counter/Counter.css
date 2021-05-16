@@ -1,0 +1,14 @@
+.FICE {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+.COUNTER {
+  padding: 1rem 5rem;
+  background-color: brown;
+  font-weight: 600;
+  font-size: 4rem;
+  text-align: center;
+  color: white;
+  width: max-content;
+}

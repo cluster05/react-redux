@@ -1,0 +1,50 @@
+.APP {
+  text-align: center;
+}
+button {
+  padding: 1rem 2rem;
+  background-color: brown;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0.5rem;
+  text-align: center;
+  color: white;
+  width: max-content;
+  border: none;
+}
+
+ul {
+  list-style: none;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  width: 400px;
+  padding: 1rem;
+  margin: 0.25rem 0.5rem;
+  background-color: brown;
+  color: white;
+  border-bottom: 2px solid brown;
+}
+
+li:hover {
+  background-color: rgb(175, 58, 58);
+}
+
+li p {
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+li span {
+  padding: 0.5rem 1rem;
+  background-color: rgb(114, 33, 33);
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import React from "react";
-import Counter from "./compoents/Counter/Counter";
-import CounterControl from "./compoents/CounterControl/CounterControl";
+import "./App.css"
+import Counter from "./components/Counter/Counter";
+import CounterControl from "./components/CounterControl/CounterControl";
 import {
   DECREMENT,
   DECREMENT_BY_10,
@@ -21,7 +22,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="APP">
         <CounterControl
           payload={1}
           title={INCREMENT}
@@ -39,14 +40,19 @@ class App extends React.Component {
           title={DECREMENT_BY_10}
           clickHandler={this.props.onDecrementCounterBy10} />
         <Counter counter={this.props.counter} />
-        <button onClick={() => this.props.saveResult(this.props.counter)}>save result</button>
 
+
+        <button onClick={() => this.props.saveResult(this.props.counter)}>SAVE RESULT</button>
+
+        <h2>Result Saved</h2>
         <ul>
           {this.props.results.map(result => (
-            <li
-              key={result.id}
-              onClick={() => this.props.removeResult(result.id)}
-            > {result.value}  </li>
+            <li key={result.id}>
+              <p>  {result.value}  </p>
+              <span
+                onClick={() => this.props.removeResult(result.id)}
+              > Delete </span>
+            </li>
           ))
           }
         </ul>
