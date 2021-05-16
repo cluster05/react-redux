@@ -1,52 +1,57 @@
-import { useState } from "react";
+import React from "react";
 import Counter from "./compoents/Counter/Counter";
 import CounterControl from "./compoents/CounterControl/CounterControl";
+import * as actionType from './store/action/counter';
+import { connect } from 'react-redux';
 
-function App() {
+class App extends React.Component {
 
-  const [counter, setCounter] = useState(0);
-
-  const clickHandler = (action, payload) => {
-    switch (action) {
-      case 'INCREMENT':
-        setCounter(counter + payload)
-        break;
-      case 'DECREMENT':
-        setCounter(counter + payload)
-        break;
-      case 'INCREMENT_BY_10':
-        setCounter(counter + payload)
-        break;
-      case 'DECREMENT_BY_10':
-        setCounter(counter + payload)
-        break;
-      default:
-        break;
-    }
+  constructor(props) {
+    super(props);
   }
 
-  return (
-    <div>
-      <CounterControl
-        payload={1}
-        title="INCREMENT"
-        clickHandler={clickHandler} />
-      <CounterControl
-        payload={-1}
-        title="DECREMENT"
-        clickHandler={clickHandler} />
-      <CounterControl
-        payload={10}
-        title="INCREMENT_BY_10"
-        clickHandler={clickHandler} />
-      <CounterControl
-        payload={-10}
-        title="DECREMENT_BY_10"
-        clickHandler={clickHandler} />
-      <Counter counter={counter} />
+  render() {
+    return (
+      <div>
+        <CounterControl
+          payload={1}
+          title={actionType.INCREMENT}
+          clickHandler={this.props.onIncrementCounter} />
+        <CounterControl
+          payload={-1}
+          title={actionType.DECREMENT}
+          clickHandler={this.props.onDecrementCounter} />
+        <CounterControl
+          payload={10}
+          title={actionType.INCREMENT_BY_10}
+          clickHandler={this.props.onIncrementCounterBy10} />
+        <CounterControl
+          payload={-10}
+          title={actionType.DECREMENT_BY_10}
+          clickHandler={this.props.onDecrementCounterBy10} />
+        <Counter counter={this.props.counter} />
 
-    </div>
-  );
+      </div >
+    )
+  }
+
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    counter: state.counter
+  }
+}
+
+const mapReducerToProps = dispatch => {
+
+  return {
+    onIncrementCounter: () => dispatch({ type: actionType.INCREMENT, payload: { value: 1 } }),
+    onDecrementCounter: () => dispatch({ type: actionType.INCREMENT, payload: { value: -1 } }),
+    onIncrementCounterBy10: () => dispatch({ type: actionType.INCREMENT, payload: { value: 10 } }),
+    onDecrementCounterBy10: () => dispatch({ type: actionType.INCREMENT, payload: { value: -10 } }),
+  }
+
+}
+
+export default connect(mapStateToProps, mapReducerToProps)(App);
