@@ -1,4 +1,4 @@
-import * as actionType from '../action/result';
+import { SAVE_RESULT, REMOVE_RESULT } from '../action/index';
 
 const initialState = {
     results: []
@@ -6,13 +6,13 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionType.SAVE_RESULT:
+        case SAVE_RESULT:
             const id = Math.floor(Math.random() * 1E10);
             return {
                 ...state,
                 results: state.results.concat({ id, value: action.payload.counter })
             }
-        case actionType.REMOVE_RESULT:
+        case REMOVE_RESULT:
             const updatedResult = state.results.filter(result => result.id !== action.payload.id);
             return {
                 ...state,
