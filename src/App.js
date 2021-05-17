@@ -14,73 +14,52 @@ import {
   increment,
   incrementBy10,
   asyncRemoveValue,
-  asyncSaveValue
+  asyncSaveValue,
 } from './store/actionEnhancer/index';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-class App extends React.Component {
+const App = () => {
 
-  render() {
-    return (
-      <div className="APP">
-        <CounterControl
-          payload={1}
-          title={INCREMENT}
-          clickHandler={this.props.onIncrementCounter} />
-        <CounterControl
-          payload={-1}
-          title={DECREMENT}
-          clickHandler={this.props.onDecrementCounter} />
-        <CounterControl
-          payload={10}
-          title={INCREMENT_BY_10}
-          clickHandler={this.props.onIncrementCounterBy10} />
-        <CounterControl
-          payload={-10}
-          title={DECREMENT_BY_10}
-          clickHandler={this.props.onDecrementCounterBy10} />
-        <Counter counter={this.props.counter} />
+  const dispatch = useDispatch();
+  const counter = useSelector(state => state.ctr.counter)
+  const results = useSelector(state => state.res.results)
 
+  return (
+    <div className="APP">
+      <CounterControl
+        payload={1}
+        title={INCREMENT}
+        clickHandler={() => dispatch(increment())} />
+      <CounterControl
+        payload={-1}
+        title={DECREMENT}
+        clickHandler={() => dispatch(decrement())} />
+      <CounterControl
+        payload={10}
+        title={INCREMENT_BY_10}
+        clickHandler={() => dispatch(incrementBy10())} />
+      <CounterControl
+        payload={-10}
+        title={DECREMENT_BY_10}
+        clickHandler={() => dispatch(decrementBy10())} />
+      <Counter counter={counter} />
 
-        <button onClick={() => this.props.saveResult(this.props.counter)}>SAVE RESULT</button>
+      <button onClick={() => dispatch(asyncSaveValue(counter))}>SAVE RESULT</button>
 
-        <h2>Result Saved</h2>
-        <ul>
-          {this.props.results.map(result => (
-            <li key={result.id}>
-              <p>  {result.value}  </p>
-              <span
-                onClick={() => this.props.removeResult(result.id)}
-              > Delete </span>
-            </li>
-          ))
-          }
-        </ul>
-
-      </div >
-    )
-  }
-
+      <h2>Result Saved</h2>
+      <ul>
+        {results.map(result => (
+          <li key={result.id}>
+            <p>  {result.value}  </p>
+            <span
+              onClick={() => dispatch(asyncRemoveValue(result.id))}
+            > Delete </span>
+          </li>
+        ))
+        }
+      </ul>
+    </div >
+  )
 }
 
-const mapStateToProps = state => {
-  return {
-    counter: state.ctr.counter,
-    results: state.res.results
-  }
-}
-
-const mapReducerToProps = dispatch => {
-  return {
-    onIncrementCounter: () => dispatch(increment()),
-    onDecrementCounter: () => dispatch(decrement()),
-    onIncrementCounterBy10: () => dispatch(incrementBy10()),
-    onDecrementCounterBy10: () => dispatch(decrementBy10()),
-    saveResult: (counter) => dispatch(asyncSaveValue(counter)),
-    removeResult: (id) => dispatch(asyncRemoveValue(id)),
-
-  }
-
-}
-
-export default connect(mapStateToProps, mapReducerToProps)(App);
+export default App;
